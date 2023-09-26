@@ -1,14 +1,22 @@
 <?php
+session_start();
+
+// Enable a Content Security Policy (CSP) header
+header("Content-Security-Policy: frame-ancestors 'none'");
 // Remove or suppress the X-Powered-By header
 header_remove("X-Powered-By");
-header("Content-Security-Policy: default-src 'self'; script-src 'self' trusted-scripts.com");
-?>
 
-<?php include 'inc/header.php';?>
-<?php include 'inc/sidebar.php';?>
-<?php include '../classess/Category.php';?>
+include 'inc/header.php';
+include 'inc/sidebar.php';
+include '../classess/Category.php';
 
-<?php
+// Function to generate a CSRF token
+function generateCSRFToken() {
+    $token = bin2hex(random_bytes(32)); // Generate a random token
+    $_SESSION['csrf_token'] = $token;  // Store it in the session
+    return $token;
+}
+
 if (!isset($_GET['catid']) || $_GET['catid'] == NULL) {
     echo "<script>window.location='catlist.php';</script>";
 } else {
@@ -19,15 +27,24 @@ $cat = new Category();
 $updateCat = ""; // Initialize the error message variable
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $catName = $_POST['catName'];
+    // Verify CSRF token
+    if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
+        $catName = $_POST['catName'];
 
-    // Validate the category name using a regular expression
-    if (preg_match('/^[a-zA-Z]+$/', $catName)) {
-        $updateCat = $cat->catUpdate($catName, $id);
+        // Validate the category name using a regular expression
+        if (preg_match('/^[a-zA-Z]+$/', $catName)) {
+            $updateCat = $cat->catUpdate($catName, $id);
+        } else {
+            $updateCat = '<span class="error">Category Name should contain only letters.</span>';
+        }
     } else {
-        $updateCat = '<span class="error">Category Name should contain only letters.</span>';
+        // Invalid CSRF token, reject the request or take appropriate action
+        die("CSRF token validation failed.");
     }
 }
+
+// Generate a new CSRF token for each page load
+$csrfToken = generateCSRFToken();
 ?>
 
 <style>
@@ -40,13 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="box round first grid">
         <h2>Update Category</h2>
         <div class="block copyblock"> 
-
         <?php
-        if (isset($updateCat)){
+        if (isset($updateCat)) {
             echo $updateCat;
         }
         ?>
-
         <?php
         $getCat = $cat->getCatById($id);
         if ($getCat) {
@@ -61,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </tr>
                     <tr> 
                         <td>
+                            <!-- Add the CSRF token as a hidden field -->
+                            <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
                             <input type="submit" name="submit" Value="Update" />
                         </td>
                     </tr>
@@ -70,4 +87,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </div>
-<?php include 'inc/footer.php';?>
+<?php include 'inc/footer.php'; ?>

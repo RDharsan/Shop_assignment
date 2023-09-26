@@ -1,4 +1,8 @@
-﻿<?php include 'inc/header.php';?>
+﻿<?php
+// Enable a Content Security Policy (CSP) header
+header("Content-Security-Policy: frame-ancestors 'none'");
+?>
+<?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <div class="grid_10">
     <div class="box round first grid">

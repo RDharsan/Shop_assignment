@@ -1,5 +1,13 @@
 <?php
-session_start();
+// Enable a Content Security Policy (CSP) header
+header("Content-Security-Policy: frame-ancestors 'none'");
+?>
+
+<?php
+session_start([
+    'cookie_httponly' => true,  // Set the HttpOnly flag
+	'cookie_samesite' => 'Lax', // Set to 'Strict' if needed
+]);
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Generate a random token
@@ -10,9 +18,6 @@ $csrf_token = $_SESSION['csrf_token'];
 // Remove or suppress the X-Powered-By header
 header_remove("X-Powered-By");
 header_remove("Server");
-header("Content-Security-Policy: default-src 'self'; script-src 'self' trusted-scripts.com");
-
-
 
 ?>
 
