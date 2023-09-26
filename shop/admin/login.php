@@ -10,6 +10,9 @@ $csrf_token = $_SESSION['csrf_token'];
 // Remove or suppress the X-Powered-By header
 header_remove("X-Powered-By");
 header_remove("Server");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' trusted-scripts.com");
+
+
 
 ?>
 
