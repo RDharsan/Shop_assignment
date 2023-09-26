@@ -1,3 +1,8 @@
+<?php
+// Remove or suppress the X-Powered-By header
+header_remove("X-Powered-By");
+?>
+
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php include '../classess/Category.php';?>

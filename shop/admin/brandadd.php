@@ -1,3 +1,12 @@
+<?php
+// Remove or suppress the X-Powered-By header
+header_remove("X-Powered-By");
+
+
+
+// Rest of your PHP code here...
+?>
+
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php include '../classess/Brand.php';?>

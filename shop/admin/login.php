@@ -5,6 +5,11 @@ if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Generate a random token
 }
 $csrf_token = $_SESSION['csrf_token'];
+
+
+// Remove or suppress the X-Powered-By header
+header_remove("X-Powered-By");
+
 ?>
 
 <!DOCTYPE html>
