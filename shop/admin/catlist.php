@@ -1,6 +1,6 @@
 ﻿<?php
 // Enable a Content Security Policy (CSP) header
-header("Content-Security-Policy: frame-ancestors 'none'");
+header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'");
 ?>
 <?php
 // Remove or suppress the X-Powered-By header

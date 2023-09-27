@@ -2,7 +2,7 @@
 session_start();
 
 // Enable a Content Security Policy (CSP) header
-header("Content-Security-Policy: frame-ancestors 'none'");
+header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'");
 // Remove or suppress the X-Powered-By header
 header_remove("X-Powered-By");
 
