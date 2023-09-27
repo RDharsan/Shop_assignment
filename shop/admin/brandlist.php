@@ -1,6 +1,8 @@
 <?php
 // Enable a Content Security Policy (CSP) header
 header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'");
+// Set X-Content-Type-Options header to 'nosniff'
+header("X-Content-Type-Options: nosniff");
 ?>
 <?php
 // Remove or suppress the X-Powered-By header

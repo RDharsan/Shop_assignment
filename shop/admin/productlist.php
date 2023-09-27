@@ -5,6 +5,8 @@ header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'");
 <?php
 // Remove or suppress the X-Powered-By header
 header_remove("X-Powered-By");
+// Set X-Content-Type-Options header to 'nosniff'
+header("X-Content-Type-Options: nosniff");
 ?>
 
 <?php include 'inc/header.php';?>
