@@ -1,0 +1,13 @@
+{
+    "require": {
+        "league/oauth2-client": "^2.6"
+        
+    },
+
+    "autoload": {
+        "psr-4": {
+            "MyApp\\": "http://localhost/shop/admin/",
+            "AnotherNamespace\\": "http://localhost/shop/admin/login.php"
+        }
+    }
+}
