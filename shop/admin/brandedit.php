@@ -15,7 +15,7 @@ include '../classess/Brand.php';
 // Function to generate a CSRF token
 function generateCSRFToken() {
     $token = bin2hex(random_bytes(32)); // Generate a random token
-    $_SESSION['csrf_token'] = $token;  // Store it in the session
+    $_SESSION['csrf_token'] = $token;  
     return $token;
 }
 
